@@ -1,10 +1,28 @@
-#time calculator objectives
-#1.Calculate time when day and AM/Pm does not change
-#2.Calculate time when AM/PM does change
-#3.Calculate time when day changes but AM/PM does not change
-#3.Calculate time when day changes and AM/PM changes
-#4.Calculate day passed when hours added == 24
-#5.Calculate days passed when minutes sum makes a day pass and horus sum makes a day pass
+#OBJECTIVE
+# Write a function named add_time that takes in two required parameters and one optional parameter:
+
+# a start time in the 12-hour clock format (ending in AM or PM)
+# a duration time that indicates the number of hours and minutes
+# (optional) a starting day of the week, case insensitive
+
+#EXAMPLE OUTPUTS
+#add_time("3:00 PM", "3:10")
+# Returns: 6:10 PM
+
+#add_time("11:30 AM", "2:32", "Monday")
+# Returns: 2:02 PM, Monday
+
+#add_time("11:43 AM", "00:20")
+# Returns: 12:03 PM
+
+#add_time("10:10 PM", "3:30")
+# Returns: 1:40 AM (next day)
+
+#add_time("11:43 PM", "24:20", "tueSday")
+# Returns: 12:03 AM, Thursday (2 days later)
+
+#add_time("6:30 PM", "205:12")
+# Returns: 7:42 AM (9 days later)
 
 def add_time(start, duration, day=None):
 
