@@ -1,0 +1,119 @@
+#time calculator objectives
+#1.Calculate time when day and AM/Pm does not change
+#2.Calculate time when AM/PM does change
+#3.Calculate time when day changes but AM/PM does not change
+#3.Calculate time when day changes and AM/PM changes
+#4.Calculate day passed when hours added == 24
+#5.Calculate days passed when minutes sum makes a day pass and horus sum makes a day pass
+
+def add_time(start, duration, day=None):
+
+    hour_add = 0
+    am_pmswap = 0
+    day_add = 0
+    daycount = 0
+    days_passed = 0
+    day_total = 0
+    day_dict = {'MONDAY': 1, 'TUESDAY': 2, 'WEDNESDAY': 3, 'THURSDAY': 4, 'FRIDAY': 5, 'SATURDAY': 6, 'SUNDAY': 7}
+    def GetKey(val): # function for grabbing key from value
+        for key, value in day_dict.items():
+            if val == value:
+                return key
+
+    #Split Elements
+    start_hour_min_ampm = start.split(':')
+    min_pm = start_hour_min_ampm[1].split(' ')
+    start_hour = int(start_hour_min_ampm[0])
+    start_min = int(min_pm[0])
+    am_pm = min_pm[1]
+
+    #Split elements further
+    dura_hour_min = duration.split(':')
+    dura_hour = int(dura_hour_min[0])
+    dura_min = int(dura_hour_min[1])
+
+    #get starting day if necessary
+    if day != None:
+        starting_day = day_dict[day.upper()]
+
+
+
+    if day == None:
+        starting_day = 0
+
+    #get sums
+    min_sum = start_min + dura_min
+
+    #check if min_sum adds hour
+    if min_sum > 60:
+        min_sum = min_sum - 60
+        hour_add = 1
+    elif min_sum == 60:
+        min_sum = 0
+        hour_add = 1
+    #get hour sum
+
+    #format signle digit min_sum as proper clock formatting
+    if min_sum < 10:
+        min_sum = '0' + str(min_sum)
+
+    hour_sum = start_hour + dura_hour + hour_add
+
+    #AM PM switching and new day functions from hour_sum and additions to day count
+    while hour_sum > 24:
+        hour_sum = hour_sum - 24
+        days_passed = days_passed + 1
+    if hour_sum == 24:
+        hour_sum - hour_sum - 24
+        days_passed = days_passed + 1
+    elif am_pm == 'AM' and hour_sum > 12:
+        am_pm = 'PM'
+        hour_sum = hour_sum - 12
+    elif am_pm == 'AM' and hour_sum == 12:
+        am_pm = 'PM'
+        hour_sum = 12
+    elif am_pm == 'PM' and hour_sum > 12:
+        am_pm = 'AM'
+        hour_sum = hour_sum - 12
+        days_passed = days_passed + 1
+    elif am_pm == 'PM' and hour_sum == 12:
+        am_pm = 'AM'
+        hour_sum = 12
+        days_passed = days_passed + 1
+
+    #getting current day values
+    day_number = starting_day
+    day_total = starting_day + days_passed
+    while day_total > 7:
+        day_total = day_total - 7
+
+    if day_total <= 7:
+        day_number = day_total
+
+    days_passed_str = ' (' + str(days_passed) +' days later)'
+    if days_passed == 1:
+        days_passed_str = ' (next day)'
+
+    if day != None:
+       current_day = GetKey(day_number).lower().capitalize()
+       day_str = ', ' + current_day
+
+
+    if day == None and days_passed == 0:
+        output = str(hour_sum) + ':' + str(min_sum) + ' ' + am_pm
+    if day != None and days_passed == 0:
+        output = str(hour_sum) + ':' + str(min_sum) + ' ' + am_pm + ', ' + current_day
+    if day == None and days_passed != 0:
+        output = str(hour_sum) + ':' + str(min_sum) + ' ' + am_pm  + days_passed_str
+    if day != None and days_passed != 0:
+        output = str(hour_sum) + ':' + str(min_sum) + ' ' + am_pm + day_str  + days_passed_str
+
+    print(output)
+    return output
+
+
+
+
+    #calculate hours increase from min_sum
+
+add_time("3:30 PM", "2:12", "Monday")
